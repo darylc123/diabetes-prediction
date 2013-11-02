@@ -14,12 +14,12 @@ def AgeGroup(year_of_birth):
 	if dec < 90: return 8
 	if dec < 100: return 9
 
-WEST = ['WA', 'OR', 'WY', 'MT', 'ID', 'CO', 'UT', 'NV', 'AZ', 'CA','NM', 'AK', 'HI']
-MIDWEST = ['ND', 'SD', 'MN', 'WI', 'MI', 'NE', 'IA', 'IL', 'IN', 'OH', 'KS', 'MO']
-SOUTH = ['TX', 'OK', 'AR', 'LA', 'WV', 'MD', 'DE', 'DC', 'KY', 'VA', 'TN', 'NC', 'MS', 'AL', 'GA', 'SC', 'FL', 'PR']
-NORTHEAST = ['ME', 'NH', 'VT', 'NY', 'MA', 'RI', 'CT', 'NJ', 'PA']
-
 def US_Region(state):
+	WEST = ['WA', 'OR', 'WY', 'MT', 'ID', 'CO', 'UT', 'NV', 'AZ', 'CA','NM', 'AK', 'HI']
+	MIDWEST = ['ND', 'SD', 'MN', 'WI', 'MI', 'NE', 'IA', 'IL', 'IN', 'OH', 'KS', 'MO']
+	SOUTH = ['TX', 'OK', 'AR', 'LA', 'WV', 'MD', 'DE', 'DC', 'KY', 'VA', 'TN', 'NC', 'MS', 'AL', 'GA', 'SC', 'FL', 'PR']
+	NORTHEAST = ['ME', 'NH', 'VT', 'NY', 'MA', 'RI', 'CT', 'NJ', 'PA']
+
 	if state in WEST: return 0
 	if state in MIDWEST: return 1
 	if state in SOUTH: return 2
