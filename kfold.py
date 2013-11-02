@@ -6,8 +6,8 @@ def kFoldsData(data, numFolds):
 	negData = [patient for patient in data if not patient.hasDiabetes]
 
 	# Randomize data
-	numpy.random.shuffle(posData)
-	numpy.random.shuffle(negData)
+	random.shuffle(posData)
+	random.shuffle(negData)
 	
 	# Calculate size of each fold
 	posFoldSize = len(posData) / numFolds
@@ -23,8 +23,8 @@ def kFoldsData(data, numFolds):
 
 		posLeftBoundary, negLeftBoundary = i * posFoldSize, i * negFoldSize
 		posRightBoundary, negRightBoundary = (i + 1) * posFoldSize, (i + 1) * negFoldSize
-		posTraining = numpy.concatenate((posData[:posLeftBoundary], posData[posRightBoundary:]))
-		negTraining = numpy.concatenate((negData[:negLeftBoundary], negData[negRightBoundary:]))
+		posTraining = posData[:posLeftBoundary] + posData[posRightBoundary:]
+		negTraining = negData[:negLeftBoundary] + negData[negRightBoundary:]
 		training = posTraining + negTraining
 		random.shuffle(training)
 		
