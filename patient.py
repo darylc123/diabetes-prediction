@@ -24,14 +24,6 @@ class Patient:
 			self.DoctorGuid = row[5]
 			
 			self.featureVector = [self.gender, self.year_of_birth, states[self.state]]
-		if data == "TEST":
-			if row[1] == "M": self.gender = 1
-			else: self.gender = 0
-			self.year_of_birth = int(row[2])
-			self.state = row[3]
-			self.DoctorGuid = row[4]
-			self.featureVector = [self.gender, self.year_of_birth, states[self.state]]
-		
 	
 	def featureVector(self):
 		return self.featureVector
@@ -78,7 +70,7 @@ def crossFoldValidation(X, Y):
 		print "Run " + str(j+1) + ": " + str(accuracy)
 	
 	print "Average Accuracy: " + str(float(sum(correctArr)) / FOLD_COUNT)
-	
+
 t = train()
 crossFoldValidation(t[0], t[1])
 #test(model)
