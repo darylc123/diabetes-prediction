@@ -40,7 +40,7 @@ class Patient:
 def train():
 	X = [] #Feature Vectors
 	Y = [] #Classifications
-	with open('training_syncPatient.csv', 'r+') as csvfile:
+	with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
 		reader = csv.reader(csvfile)
 		next(reader)
 		mDiabetic = 0
