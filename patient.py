@@ -1,31 +1,3 @@
-import csv
-
-#Gets the age group by decade a patient was born in
-def AgeGroup(year_of_birth):
-	dec = year_of_birth - 1900
-	if dec < 10: return 0
-	if dec < 20: return 1
-	if dec < 30: return 2
-	if dec < 40: return 3
-	if dec < 50: return 4
-	if dec < 60: return 5
-	if dec < 70: return 6
-	if dec < 80: return 7
-	if dec < 90: return 8
-	if dec < 100: return 9
-
-WEST = ['WA', 'OR', 'WY', 'MT', 'ID', 'CO', 'UT', 'NV', 'AZ', 'CA','NM', 'AK', 'HI']
-MIDWEST = ['ND', 'SD', 'MN', 'WI', 'MI', 'NE', 'IA', 'IL', 'IN', 'OH', 'KS', 'MO']
-SOUTH = ['TX', 'OK', 'AR', 'LA', 'WV', 'MD', 'DE', 'DC', 'KY', 'VA', 'TN', 'NC', 'MS', 'AL', 'GA', 'SC', 'FL', 'PR']
-NORTHEAST = ['ME', 'NH', 'VT', 'NY', 'MA', 'RI', 'CT', 'NJ', 'PA']
-
-def US_Region(state):
-	if state in WEST: return 0
-	if state in MIDWEST: return 1
-	if state in SOUTH: return 2
-	if state in NORTHEAST: return 3
-	raise Exception(state + " not found in any region")
-
 class Patient:
 	def __init__(self, csvfileReaderRow):	
 		row = csvfileReaderRow
@@ -46,29 +18,29 @@ class Patient:
 		
 		#Region test, see US_Region for details
 		self.featureVector.append(US_Region(row[4]))
-
-	def featureVector(self):
-		return self.featureVector
-
-	def classification():
-		return self.hasDiabetes
 	
+#Gets the age group by decade a patient was born in
+def AgeGroup(year_of_birth):
+	dec = year_of_birth - 1900
+	if dec < 10: return 0
+	if dec < 20: return 1
+	if dec < 30: return 2
+	if dec < 40: return 3
+	if dec < 50: return 4
+	if dec < 60: return 5
+	if dec < 70: return 6
+	if dec < 80: return 7
+	if dec < 90: return 8
+	if dec < 100: return 9
 
-def train():
-	X = [] #Feature Vectors
-	Y = [] #Classifications
-	with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
-		reader = csv.reader(csvfile)
-		next(reader)
-		
-		#Create the patients
-		for row in reader:
-			p = Patient(row)
-			print p.featureVector
-			X.append(p.featureVector)
-			Y.append(p.hasDiabetes)
-	return (X, Y)
+def US_Region(state):
+	WEST = ['WA', 'OR', 'WY', 'MT', 'ID', 'CO', 'UT', 'NV', 'AZ', 'CA','NM', 'AK', 'HI']
+	MIDWEST = ['ND', 'SD', 'MN', 'WI', 'MI', 'NE', 'IA', 'IL', 'IN', 'OH', 'KS', 'MO']
+	SOUTH = ['TX', 'OK', 'AR', 'LA', 'WV', 'MD', 'DE', 'DC', 'KY', 'VA', 'TN', 'NC', 'MS', 'AL', 'GA', 'SC', 'FL', 'PR']
+	NORTHEAST = ['ME', 'NH', 'VT', 'NY', 'MA', 'RI', 'CT', 'NJ', 'PA']
 
-FOLD_COUNT = 50
-
-train()
+	if state in WEST: return 0
+	if state in MIDWEST: return 1
+	if state in SOUTH: return 2
+	if state in NORTHEAST: return 3
+	raise Exception(state + " not found in any region")
