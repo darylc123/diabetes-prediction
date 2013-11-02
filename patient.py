@@ -1,5 +1,24 @@
-import csv
-
+class Patient:
+	def __init__(self, csvfileReaderRow):	
+		row = csvfileReaderRow
+		self.PatientGuid = row[0]
+		self.DoctorGuid = row[5]
+		
+		self.featureVector = []
+		
+		#Do they have diabetes
+		self.hasDiabetes = (int(row[1]))
+		
+		#Gender Test, 1 for Male, 0 for female
+		if row[2] == "M": self.featureVector.append(1)
+		else: self.featureVector.append(0)
+		
+		#Age test, see AgeGroup for details
+		self.featureVector.append(AgeGroup(int(row[3])))
+		
+		#Region test, see US_Region for details
+		self.featureVector.append(US_Region(row[4]))
+	
 #Gets the age group by decade a patient was born in
 def AgeGroup(year_of_birth):
 	dec = year_of_birth - 1900
@@ -25,50 +44,3 @@ def US_Region(state):
 	if state in SOUTH: return 2
 	if state in NORTHEAST: return 3
 	raise Exception(state + " not found in any region")
-
-class Patient:
-	def __init__(self, csvfileReaderRow):	
-		row = csvfileReaderRow
-		self.PatientGuid = row[0]
-		self.DoctorGuid = row[5]
-		
-		self.featureVector = []
-		
-		#Do they have diabetes
-		self.hasDiabetes = (int(row[1]))
-		
-		#Gender Test, 1 for Male, 0 for female
-		if row[2] == "M": self.featureVector.append(1)
-		else: self.featureVector.append(0)
-		
-		#Age test, see AgeGroup for details
-		self.featureVector.append(AgeGroup(int(row[3])))
-		
-		#Region test, see US_Region for details
-		self.featureVector.append(US_Region(row[4]))
-
-	def featureVector(self):
-		return self.featureVector
-
-	def classification():
-		return self.hasDiabetes
-	
-
-def train():
-	X = [] #Feature Vectors
-	Y = [] #Classifications
-	with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
-		reader = csv.reader(csvfile)
-		next(reader)
-		
-		#Create the patients
-		for row in reader:
-			p = Patient(row)
-			print p.featureVector
-			X.append(p.featureVector)
-			Y.append(p.hasDiabetes)
-	return (X, Y)
-
-FOLD_COUNT = 50
-
-train()
