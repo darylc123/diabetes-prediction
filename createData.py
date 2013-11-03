@@ -1,24 +1,36 @@
 import csv, random
 from patient import Patient
 from medications import Medications
+from allergies import Allergies
 
 def getData(numFolds):
 	return kFoldsData(getPatients(), numFolds)
 
 def getPatients():
-	results = []
-	meds = Medications()
 	with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
 		reader = csv.reader(csvfile)
 		next(reader)         
 		
 		#Create the patients 
+		patients = []
 		for row in reader:
-			p = Patient(row)
-			l = meds.getMedications(p.PatientGuid)
-			p.addMeds(l)
-			results.append(p)
+			patients.append(Patient(row))
+		results = addMoreData(patients)
+
 	return results
+
+def addMoreData(patients):
+	results = []
+	meds = Medications()
+	allergies = Allergies()
+	for p in patients:
+		m = meds.getMedications(p.PatientGuid)
+		a = allergies.getAllergies(p.PatientGuid)
+		p.addFeatures(m)
+		p.addFeatures(a)
+		results.append(p)
+	return results
+
 
 def kFoldsData(data, numFolds):
 	# Split data into positive and negative
