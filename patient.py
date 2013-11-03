@@ -16,8 +16,12 @@ class Patient:
 		#Age test, see AgeGroup for details
 		self.featureVector.append(AgeGroup(int(row[3])))
 		
+		
 		#Region test, see US_Region for details
 		self.featureVector.append(US_Region(row[4]))
+	
+	def addMeds(self, medications):
+		self.featureVector += medications
 	
 #Gets the age group by decade a patient was born in
 def AgeGroup(year_of_birth):
