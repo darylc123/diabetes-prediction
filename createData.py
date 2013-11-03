@@ -1,4 +1,24 @@
-import random
+import csv, random
+from patient import Patient
+from medications import Medications
+
+def getData(numFolds):
+	return kFoldsData(getPatients(), numFolds)
+
+def getPatients():
+	results = []
+	meds = Medications()
+	with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
+		reader = csv.reader(csvfile)
+		next(reader)         
+		
+		#Create the patients 
+		for row in reader:
+			p = Patient(row)
+			l = meds.getMedications(p.PatientGuid)
+			p.addMeds(l)
+			results.append(p)
+	return results
 
 def kFoldsData(data, numFolds):
 	# Split data into positive and negative
