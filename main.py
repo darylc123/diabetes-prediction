@@ -4,25 +4,23 @@ from createData import *
 import csv
 from sklearn.naive_bayes import GaussianNB
 
-def evaluateKFolds(data):
+def evaluateKFolds(data, classifier):
     avPrecision = []
     avRecall = []
     avFscore = []
     avAccuracy = []
     for training, test in data:
-            gnb = GaussianNB()
-            
             X = []
             Y = []
             for patient in training:
                 X.append(patient.featureVector)
                 Y.append(patient.hasDiabetes)
-            gnb.fit(X, Y)
+            classifier.fit(X, Y)
             
             TP, FP, TN, FN = 0.0, 0.0, 0.0, 0.0
             for patient in test:
                 trueClass = patient.hasDiabetes
-                predictedClass = gnb.predict(patient.featureVector)
+                predictedClass = classifier.predict(patient.featureVector)
                 if predictedClass == trueClass and trueClass == 1: TP += 1
                 if predictedClass == trueClass and trueClass == 0: TN += 1
                 if predictedClass != trueClass and trueClass == 1: FN += 1
@@ -55,7 +53,7 @@ def evaluateKFolds(data):
 def main():
     FOLD_COUNT = 5
     data = getData(FOLD_COUNT)
-    evaluateKFolds(data)
+    evaluateKFolds(data, GaussianNB())
 
 if __name__ == "__main__":
     main()
