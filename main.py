@@ -1,4 +1,5 @@
 from patient import Patient
+from medications import Medications
 from kfold import *
 import csv
 from sklearn.naive_bayes import GaussianNB
@@ -50,21 +51,27 @@ def evaluateKFolds(data):
     print "Average Recall: " + str(sum(avRecall) / len(avRecall) * 100) + "%"
     print "Average F1 Score: " + str(sum(avFscore) / len(avFscore) * 100) + "%"
     print "Average Accuracy: " + str(sum(avAccuracy) / len(avAccuracy) * 100) + "%"          
-        
 
-def getTrainData():
+def getTrainData(meds):
     results = []
     with open('trainingSet/training_SyncPatient.csv', 'r+') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
         
         #Create the patients
-        results = [Patient(row) for row in reader]
+        for row in reader:
+            p = Patient(row)
+            l = meds.getMedications(p.PatientGuid)
+            p.addMeds(l)
+            results.append(p)
     return results
 
-FOLD_COUNT = 5
 
+def main():
+    FOLD_COUNT = 5
+    meds = Medications()
+    data = kFoldsData(getTrainData(meds), FOLD_COUNT)
+    evaluateKFolds(data)
 
-data = kFoldsData(getTrainData(), FOLD_COUNT)
-evaluateKFolds(data)
-
+if __name__ == "__main__":
+    main()
